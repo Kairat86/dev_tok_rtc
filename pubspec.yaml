@@ -1,0 +1,24 @@
+name: dev_tok_webrtc
+version: 1.0.0+0
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+  flutter: '>=1.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  path_provider: ^2.0.2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.11.1
+  test:
+    
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: dev.tok.hi
+        pluginClass: FlutterWebRTCPlugin
+      ios:
+        pluginClass: FlutterWebRTCPlugin
