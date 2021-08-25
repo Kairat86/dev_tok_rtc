@@ -1,4 +1,4 @@
-library dev_tok_webrtc;
+library dev_tok_rtc;
 
 export 'src/helper.dart';
 export 'src/interface/enums.dart';

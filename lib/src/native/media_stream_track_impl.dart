@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dev_tok_webrtc/dev_tok_webrtc.dart';
+import 'package:dev_tok_rtc/dev_tok_rtc.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../interface/media_stream_track.dart';

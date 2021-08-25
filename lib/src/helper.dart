@@ -1,4 +1,4 @@
-import 'package:dev_tok_webrtc/dev_tok_webrtc.dart';
+import 'package:dev_tok_rtc/dev_tok_rtc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

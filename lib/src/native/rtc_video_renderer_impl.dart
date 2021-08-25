@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:dev_tok_webrtc/dev_tok_webrtc.dart';
+import 'package:dev_tok_rtc/dev_tok_rtc.dart';
 
 import '../interface/media_stream.dart';
 import '../interface/rtc_video_renderer.dart';

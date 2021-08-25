@@ -3,7 +3,7 @@ import 'dart:html';
 import 'dart:js_util' as jsutil;
 
 import 'package:flutter/services.dart';
-import 'package:dev_tok_webrtc/flutter_webrtc.dart';
+import 'package:dev_tok_rtc/flutter_rtc.dart';
 
 import '../interface/media_stream_track.dart';
 import '../interface/rtc_dtmf_sender.dart';

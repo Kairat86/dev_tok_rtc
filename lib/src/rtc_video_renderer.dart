@@ -1,4 +1,4 @@
-import '../dev_tok_webrtc.dart';
+import '../dev_tok_rtc.dart';
 import 'interface/rtc_video_renderer.dart';
 
 class RTCVideoRenderer {

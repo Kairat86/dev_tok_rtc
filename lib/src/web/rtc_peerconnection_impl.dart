@@ -3,8 +3,8 @@ import 'dart:html' as html;
 import 'dart:js' as js;
 import 'dart:js_util' as jsutil;
 
-import 'package:dev_tok_webrtc/src/interface/rtc_track_event.dart';
-import 'package:dev_tok_webrtc/src/web/rtc_rtp_transceiver_impl.dart';
+import 'package:dev_tok_rtc/src/interface/rtc_track_event.dart';
+import 'package:dev_tok_rtc/src/web/rtc_rtp_transceiver_impl.dart';
 
 import '../interface/enums.dart';
 import '../interface/media_stream.dart';

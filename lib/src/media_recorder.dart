@@ -1,4 +1,4 @@
-import '../dev_tok_webrtc.dart';
+import '../dev_tok_rtc.dart';
 import 'interface/enums.dart';
 import 'interface/media_recorder.dart' as _interface;
 import 'interface/media_stream.dart';
