@@ -191,7 +191,7 @@ class HardwareVideoEncoder implements VideoEncoder {
             returnValue = VideoCodecStatus.OK;
         } else {
             this.running = false;
-            if (!ThreadUtils.joinUninterruptibly(this.outputThread, 5000L)) {
+            if (!ThreadUtils.joinUninterruptedly(this.outputThread, 5000L)) {
                 Logging.e("HardwareVideoEncoder", "Media encoder release timeout");
                 returnValue = VideoCodecStatus.TIMEOUT;
             } else if (this.shutdownException != null) {

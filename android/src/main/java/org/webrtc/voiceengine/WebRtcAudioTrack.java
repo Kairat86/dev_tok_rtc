@@ -330,7 +330,7 @@
 /*     */     
 /* 331 */     Logging.d("WebRtcAudioTrack", "Stopping the AudioTrackThread...");
 /* 332 */     this.audioThread.interrupt();
-/* 333 */     if (!ThreadUtils.joinUninterruptibly(this.audioThread, 2000L)) {
+/* 333 */     if (!ThreadUtils.joinUninterruptedly(this.audioThread, 2000L)) {
 /* 334 */       Logging.e("WebRtcAudioTrack", "Join of AudioTrackThread timed out.");
 /* 335 */       WebRtcAudioUtils.logAudioState("WebRtcAudioTrack");
 /*     */     } 

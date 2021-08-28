@@ -288,16 +288,14 @@ abstract class CameraCapturer implements CameraVideoCapturer {
 
     public void switchCamera(final CameraSwitchHandler switchEventsHandler) {
         Logging.d("CameraCapturer", "switchCamera");
-        this.cameraThreadHandler.post(new Runnable() {
-            public void run() {
-                List<String> deviceNames = Arrays.asList(CameraCapturer.this.cameraEnumerator.getDeviceNames());
-                if (deviceNames.size() < 2) {
-                    CameraCapturer.this.reportCameraSwitchError("No camera to switch to.", switchEventsHandler);
-                } else {
-                    int cameraNameIndex = deviceNames.indexOf(CameraCapturer.this.cameraName);
-                    String cameraName = (String) deviceNames.get((cameraNameIndex + 1) % deviceNames.size());
-                    CameraCapturer.this.switchCameraInternal(switchEventsHandler, cameraName);
-                }
+        this.cameraThreadHandler.post(() -> {
+            List<String> deviceNames = Arrays.asList(CameraCapturer.this.cameraEnumerator.getDeviceNames());
+            if (deviceNames.size() < 2) {
+                CameraCapturer.this.reportCameraSwitchError("No camera to switch to.", switchEventsHandler);
+            } else {
+                int cameraNameIndex = deviceNames.indexOf(CameraCapturer.this.cameraName);
+                String cameraName = deviceNames.get((cameraNameIndex + 1) % deviceNames.size());
+                CameraCapturer.this.switchCameraInternal(switchEventsHandler, cameraName);
             }
         });
     }
@@ -309,32 +307,6 @@ abstract class CameraCapturer implements CameraVideoCapturer {
                 CameraCapturer.this.switchCameraInternal(switchEventsHandler, cameraName);
             }
         });
-    }
-
-    public boolean isScreencast() {
-        return false;
-    }
-
-    public void printStackTrace() {
-        Thread cameraThread = null;
-        if (this.cameraThreadHandler != null) {
-            cameraThread = this.cameraThreadHandler.getLooper().getThread();
-        }
-
-        if (cameraThread != null) {
-            StackTraceElement[] cameraStackTrace = cameraThread.getStackTrace();
-            if (cameraStackTrace.length > 0) {
-                Logging.d("CameraCapturer", "CameraCapturer stack trace:");
-                StackTraceElement[] var3 = cameraStackTrace;
-                int var4 = cameraStackTrace.length;
-
-                for (int var5 = 0; var5 < var4; ++var5) {
-                    StackTraceElement traceElem = var3[var5];
-                    Logging.d("CameraCapturer", traceElem.toString());
-                }
-            }
-        }
-
     }
 
     private void reportCameraSwitchError(String error, @Nullable CameraSwitchHandler switchEventsHandler) {

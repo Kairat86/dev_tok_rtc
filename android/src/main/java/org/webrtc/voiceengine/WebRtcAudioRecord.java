@@ -313,7 +313,7 @@
 /* 313 */     Logging.d("WebRtcAudioRecord", "stopRecording");
 /* 314 */     assertTrue((this.audioThread != null));
 /* 315 */     this.audioThread.stopThread();
-/* 316 */     if (!ThreadUtils.joinUninterruptibly(this.audioThread, 2000L)) {
+/* 316 */     if (!ThreadUtils.joinUninterruptedly(this.audioThread, 2000L)) {
 /* 317 */       Logging.e("WebRtcAudioRecord", "Join of AudioRecordJavaThread timed out");
 /* 318 */       WebRtcAudioUtils.logAudioState("WebRtcAudioRecord");
 /*     */     } 

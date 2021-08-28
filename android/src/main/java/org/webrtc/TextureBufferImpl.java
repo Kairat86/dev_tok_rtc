@@ -59,7 +59,7 @@ public class TextureBufferImpl implements TextureBuffer {
     }
 
     public I420Buffer toI420() {
-        return (I420Buffer) ThreadUtils.invokeAtFrontUninterruptibly(this.toI420Handler, () -> {
+        return (I420Buffer) ThreadUtils.invokeAtFrontUninterruptedly(this.toI420Handler, () -> {
             return this.yuvConverter.convert(this);
         });
     }

@@ -35,18 +35,6 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import dev.tok.hi.record.AudioChannel;
-import dev.tok.hi.record.AudioSamplesInterceptor;
-import dev.tok.hi.record.MediaRecorderImpl;
-import dev.tok.hi.record.OutputAudioSamplesInterceptor;
-import dev.tok.hi.utils.Callback;
-import dev.tok.hi.utils.ConstraintsArray;
-import dev.tok.hi.utils.ConstraintsMap;
-import dev.tok.hi.utils.EglUtils;
-import dev.tok.hi.utils.MediaConstraintsUtils;
-import dev.tok.hi.utils.ObjectType;
-import dev.tok.hi.utils.PermissionUtils;
-
 import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.Camera1Capturer;
@@ -73,6 +61,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import dev.tok.hi.record.AudioChannel;
+import dev.tok.hi.record.AudioSamplesInterceptor;
+import dev.tok.hi.record.MediaRecorderImpl;
+import dev.tok.hi.record.OutputAudioSamplesInterceptor;
+import dev.tok.hi.utils.Callback;
+import dev.tok.hi.utils.ConstraintsArray;
+import dev.tok.hi.utils.ConstraintsMap;
+import dev.tok.hi.utils.EglUtils;
+import dev.tok.hi.utils.MediaConstraintsUtils;
+import dev.tok.hi.utils.ObjectType;
+import dev.tok.hi.utils.PermissionUtils;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 /**
@@ -281,7 +280,7 @@ class GetUserMediaImpl {
         }
 
         // falling back to the first available camera
-        if (videoCapturer == null && deviceNames.length > 0){
+        if (videoCapturer == null && deviceNames.length > 0) {
             videoCapturer = enumerator.createCapturer(deviceNames[0], new CameraEventsHandler());
             Log.d(TAG, "Falling back to the first available camera");
         }
@@ -411,48 +410,32 @@ class GetUserMediaImpl {
             return;
         }
 
-        /// Only systems pre-M, no additional permission request is needed.
-        if (VERSION.SDK_INT < VERSION_CODES.M) {
-            getUserMedia(constraints, result, mediaStream, requestPermissions);
-            return;
-        }
-
         requestPermissions(
                 requestPermissions,
-                /* successCallback */ new Callback() {
-                    @Override
-                    public void invoke(Object... args) {
-                        List<String> grantedPermissions = (List<String>) args[0];
+                /* successCallback */ args -> {
+                    List<String> grantedPermissions = (List<String>) args[0];
 
-                        getUserMedia(constraints, result, mediaStream, grantedPermissions);
-                    }
+                    getUserMedia(constraints, result, mediaStream, grantedPermissions);
                 },
-                /* errorCallback */ new Callback() {
-                    @Override
-                    public void invoke(Object... args) {
-                        // According to step 10 Permission Failure of the
-                        // getUserMedia() algorithm, if the user has denied
-                        // permission, fail "with a new DOMException object whose
-                        // name attribute has the value NotAllowedError."
-                        resultError("getUserMedia", "DOMException, NotAllowedError", result);
-                    }
+                /* errorCallback */ args -> {
+                    // According to step 10 Permission Failure of the
+                    // getUserMedia() algorithm, if the user has denied
+                    // permission, fail "with a new DOMException object whose
+                    // name attribute has the value NotAllowedError."
+                    resultError("getUserMedia", "DOMException, NotAllowedError", result);
                 });
     }
 
     void getDisplayMedia(
             final ConstraintsMap constraints, final Result result, final MediaStream mediaStream) {
-        ConstraintsMap videoConstraintsMap = null;
-        ConstraintsMap videoConstraintsMandatory = null;
+        ConstraintsMap videoConstraintsMap;
 
         if (constraints.getType("video") == ObjectType.Map) {
             videoConstraintsMap = constraints.getMap("video");
-            if (videoConstraintsMap.hasKey("mandatory")
-                    && videoConstraintsMap.getType("mandatory") == ObjectType.Map) {
-                videoConstraintsMandatory = videoConstraintsMap.getMap("mandatory");
+            if (videoConstraintsMap.hasKey("mandatory")) {
+                videoConstraintsMap.getType("mandatory");
             }
         }
-
-        final ConstraintsMap videoConstraintsMandatory2 = videoConstraintsMandatory;
 
         screenRequestPremissions(
                 new ResultReceiver(new Handler(Looper.getMainLooper())) {
@@ -482,11 +465,6 @@ class GetUserMediaImpl {
                                                 //resultError("MediaProjection.Callback()", "User revoked permission to capture the screen.", result);
                                             }
                                         });
-                        if (videoCapturer == null) {
-                            resultError("screenRequestPremissions", "GetDisplayMediaFailed, User revoked permission to capture the screen.", result);
-                            return;
-                        }
-
                         PeerConnectionFactory pcFactory = stateProvider.getPeerConnectionFactory();
                         VideoSource videoSource = pcFactory.createVideoSource(true);
 
@@ -500,8 +478,14 @@ class GetUserMediaImpl {
                                 (WindowManager) applicationContext.getSystemService(Context.WINDOW_SERVICE);
 
                         VideoCapturerInfo info = new VideoCapturerInfo();
-                        info.width = wm.getDefaultDisplay().getWidth();
-                        info.height = wm.getDefaultDisplay().getHeight();
+                        if (VERSION.SDK_INT >= VERSION_CODES.R) {
+                            info.width = wm.getCurrentWindowMetrics().getBounds().width();
+                            info.height = wm.getCurrentWindowMetrics().getBounds().height();
+                        } else {
+                            info.width = wm.getDefaultDisplay().getWidth();
+                            info.height = wm.getDefaultDisplay().getHeight();
+                        }
+
                         info.fps = DEFAULT_FPS;
                         info.isScreenCapture = true;
                         info.capturer = videoCapturer;

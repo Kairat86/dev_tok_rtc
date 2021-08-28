@@ -48,18 +48,18 @@ public class OrientationAwareScreenCapturer
     }
 
     @Override
-    public synchronized void startCapture(int width, int height, int ignoredFramerate) {
+    public synchronized void startCapture(int wOrH, int hOrW, int ignoredFramerate) {
         this.windowManager = (WindowManager) applicationContext.getSystemService(
                 Context.WINDOW_SERVICE);
         this.isPortrait = isDeviceOrientationPortrait();
         if (this.isPortrait) {
-            this.width = width;
-            this.height = height;
+            this.width = wOrH;
+            this.height = hOrW;
         } else {
-            this.height = width;
-            this.width = height;
+            this.height = wOrH;
+            this.width = hOrW;
         }
-        super.startCapture(width, height, ignoredFramerate);
+        super.startCapture(wOrH, hOrW, ignoredFramerate);
     }
 
     @Override

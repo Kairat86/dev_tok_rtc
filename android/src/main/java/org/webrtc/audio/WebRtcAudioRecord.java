@@ -259,7 +259,7 @@ class WebRtcAudioRecord {
         }
 
         this.audioThread.stopThread();
-        if (!ThreadUtils.joinUninterruptibly(this.audioThread, 2000L)) {
+        if (!ThreadUtils.joinUninterruptedly(this.audioThread, 2000L)) {
             Logging.e("WebRtcAudioRecordExternal", "Join of AudioRecordJavaThread timed out");
             WebRtcAudioUtils.logAudioState("WebRtcAudioRecordExternal", this.context, this.audioManager);
         }

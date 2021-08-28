@@ -5,10 +5,14 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+
+import java.util.Set;
+
 import dev.tok.hi.MethodCallHandlerImpl.AudioManager;
 import dev.tok.hi.utils.RTCAudioManager;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -19,8 +23,6 @@ import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.view.TextureRegistry;
-
-import java.util.Set;
 
 /**
  * FlutterWebRTCPlugin
@@ -93,8 +95,8 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware {
         methodCallHandler.setActivity(null);
         if (this.observer != null) {
             this.lifecycle.removeObserver(this.observer);
-            if (this.application!=null) {
-                this.application.unregisterActivityLifecycleCallbacks(this.observer);
+            if (application != null) {
+                application.unregisterActivityLifecycleCallbacks(this.observer);
             }
         }
         this.lifecycle = null;

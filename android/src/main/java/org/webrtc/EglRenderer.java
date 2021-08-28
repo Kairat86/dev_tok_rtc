@@ -110,7 +110,7 @@ public class EglRenderer implements VideoSink {
                         }
                     }
                 });
-                ThreadUtils.invokeAtFrontUninterruptibly(this.renderThreadHandler, () -> {
+                ThreadUtils.invokeAtFrontUninterruptedly(this.renderThreadHandler, () -> {
                     if (sharedContext == null) {
                         this.logD("EglBase10.create context");
                         this.eglBase = EglBase.createEgl10(configAttributes);
@@ -185,7 +185,7 @@ public class EglRenderer implements VideoSink {
             this.renderThreadHandler = null;
         }
 
-        ThreadUtils.awaitUninterruptibly(eglCleanupBarrier);
+        ThreadUtils.awaitUninterruptedly(eglCleanupBarrier);
         synchronized(this.frameLock) {
             if (this.pendingFrame != null) {
                 this.pendingFrame.release();
@@ -312,7 +312,7 @@ public class EglRenderer implements VideoSink {
             });
         }
 
-        ThreadUtils.awaitUninterruptibly(latch);
+        ThreadUtils.awaitUninterruptedly(latch);
     }
 
     public void setErrorCallback(EglRenderer.ErrorCallback errorCallback) {

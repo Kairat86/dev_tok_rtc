@@ -64,7 +64,7 @@
 /*  64 */     this.fileThread.start();
 /*  65 */     this.fileThreadHandler = new Handler(this.fileThread.getLooper());
 /*     */     
-/*  67 */     ThreadUtils.invokeAtFrontUninterruptibly(this.renderThreadHandler, new Runnable()
+/*  67 */     ThreadUtils.invokeAtFrontUninterruptedly(this.renderThreadHandler, new Runnable()
 /*     */         {
 /*     */           public void run() {
 /*  70 */             VideoFileRenderer.this.eglBase = EglBase.create(sharedContext, EglBase.CONFIG_PIXEL_BUFFER);
@@ -139,7 +139,7 @@
 /*     */           this.renderThread.quit();
 /*     */           cleanupBarrier.countDown();
 /*     */         });
-/* 142 */     ThreadUtils.awaitUninterruptibly(cleanupBarrier);
+/* 142 */     ThreadUtils.awaitUninterruptedly(cleanupBarrier);
 /* 143 */     this.fileThreadHandler.post(() -> {
 /*     */           try {
 /*     */             this.videoOutFile.close();

@@ -300,7 +300,7 @@
 /*     */     
 /* 301 */     Logging.d("WebRtcAudioTrackExternal", "Stopping the AudioTrackThread...");
 /* 302 */     this.audioThread.interrupt();
-/* 303 */     if (!ThreadUtils.joinUninterruptibly(this.audioThread, 2000L)) {
+/* 303 */     if (!ThreadUtils.joinUninterruptedly(this.audioThread, 2000L)) {
 /* 304 */       Logging.e("WebRtcAudioTrackExternal", "Join of AudioTrackThread timed out.");
 /* 305 */       WebRtcAudioUtils.logAudioState("WebRtcAudioTrackExternal", this.context, this.audioManager);
 /*     */     } 

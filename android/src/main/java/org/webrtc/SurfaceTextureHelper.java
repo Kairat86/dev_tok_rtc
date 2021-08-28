@@ -41,7 +41,7 @@ public class SurfaceTextureHelper {
         HandlerThread thread = new HandlerThread(threadName);
         thread.start();
         final Handler handler = new Handler(thread.getLooper());
-        return (SurfaceTextureHelper) ThreadUtils.invokeAtFrontUninterruptibly(handler, () -> {
+        return ThreadUtils.invokeAtFrontUninterruptedly(handler, () -> {
             try {
                 return new SurfaceTextureHelper(sharedContext, handler, alignTimestamps, yuvConverter, frameRefMonitor);
             } catch (RuntimeException var2) {
@@ -52,7 +52,7 @@ public class SurfaceTextureHelper {
     }
 
     public static SurfaceTextureHelper create(String threadName, Context sharedContext) {
-        return create(threadName, sharedContext, false, new YuvConverter(), (SurfaceTextureHelper.FrameRefMonitor) null);
+        return create(threadName, sharedContext, false, new YuvConverter(), null);
     }
 
     public static SurfaceTextureHelper create(String threadName, Context sharedContext, boolean alignTimestamps) {
@@ -140,7 +140,7 @@ public class SurfaceTextureHelper {
     public void stopListening() {
         Logging.d("SurfaceTextureHelper", "stopListening()");
         this.handler.removeCallbacks(this.setListenerRunnable);
-        ThreadUtils.invokeAtFrontUninterruptibly(this.handler, () -> {
+        ThreadUtils.invokeAtFrontUninterruptedly(this.handler, () -> {
             this.listener = null;
             this.pendingListener = null;
         });
@@ -198,7 +198,7 @@ public class SurfaceTextureHelper {
 
     public void dispose() {
         Logging.d("SurfaceTextureHelper", "dispose()");
-        ThreadUtils.invokeAtFrontUninterruptibly(this.handler, () -> {
+        ThreadUtils.invokeAtFrontUninterruptedly(this.handler, () -> {
             this.isQuitting = true;
             if (!this.isTextureInUse) {
                 this.release();

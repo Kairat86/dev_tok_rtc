@@ -336,7 +336,7 @@
 /*     */     
 /*     */     try {
 /* 338 */       this.running = false;
-/* 339 */       if (!ThreadUtils.joinUninterruptibly(this.outputThread, 5000L)) {
+/* 339 */       if (!ThreadUtils.joinUninterruptedly(this.outputThread, 5000L)) {
 /*     */         
 /* 341 */         Logging.e("AndroidVideoDecoder", "Media decoder release timeout", new RuntimeException());
 /* 342 */         return VideoCodecStatus.TIMEOUT;

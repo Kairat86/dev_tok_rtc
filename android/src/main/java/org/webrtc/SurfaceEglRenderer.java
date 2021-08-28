@@ -116,7 +116,7 @@
 /* 116 */     ThreadUtils.checkIsOnMainThread();
 /* 117 */     CountDownLatch completionLatch = new CountDownLatch(1);
 /* 118 */     Objects.requireNonNull(completionLatch); releaseEglSurface(completionLatch::countDown);
-/* 119 */     ThreadUtils.awaitUninterruptibly(completionLatch);
+/* 119 */     ThreadUtils.awaitUninterruptedly(completionLatch);
 /*     */   }
 /*     */ 
 /*     */   
